@@ -4,6 +4,11 @@ Average price on returned goods
 
 .. |AVCO| replace:: :abbr:`AVCO (Average Cost Valuation)`
 
+As stated on the :doc:`inventory valuation page
+</applications/inventory_and_mrp/inventory/warehouses_storage/inventory_valuation/inventory_valuation_config>`,
+one of the possible costing methods that can be used in perpetual stock valuation is *average cost
+valuation*.
+
 .. _inventory/avg_cost/definition:
 
 *Average cost valuation* (AVCO) is an inventory valuation method that evaluates cost based on the
