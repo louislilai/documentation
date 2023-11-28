@@ -108,16 +108,23 @@ invoices and bills by email or post.
 Configuration
 -------------
 
-First, :ref:`install <general/install>` the :guilabel:`Peppol` module (`account_peppol`).
+:ref:`Install <general/install>` the :guilabel:`Peppol` module (`account_peppol`).
 
 .. image:: electronic_invoicing/peppol-module.png
    :alt: Peppol module install
 
-Then, go to :menuselection:`Accounting --> Configuration --> Settings`, tick the
-:guilabel:`Use PEPPOL Invoicing`, and fill in the following information:
+Registration
+------------
 
-- `PEPPOL EAS <https://ec.europa.eu/digital-building-blocks/wikis/display/DIGITAL/Code+lists/>`_
-- :guilabel:`Peppol Endpoint`
+Go to :menuselection:`Accounting --> Configuration --> Settings`, tick the
+:guilabel:`Use PEPPOL Invoicing` checkbox, and fill in the following information:
+
+- `Peppol EAS <https://ec.europa.eu/digital-building-blocks/wikis/display/DIGITAL/Code+lists/>`_.
+  This is the Peppol Electronic Address Scheme and usually depends on your company's country.
+  Odoo often prefills the most commonly used EAS code in your country.
+  For example, the preferred EAS code for most companies in Belgium is 0208.
+- `Peppol Endpoint <https://docs.peppol.eu/edelivery/codelists/v8.7/Peppol%20Code%20Lists%20-%20Participant%20identifier%20schemes%20v8.7.html>`_.
+  This is usually a Company Registry number or a VAT number.
 - :guilabel:`Phone Number`, including the country code (e.g., `+32` in Belgium)
 - :guilabel:`Primary contact email`
 
@@ -129,10 +136,163 @@ the previous provider.
 
 Finally, click on :guilabel:`Validate registration`.
 
-A text message containing a code is sent to the phone number provided to finalize the registration
-process.
+.. note::
+  If you are a developer and want to test Peppol, you can change the system
+  parameter `account_peppol.edi.mode` to `test`. Then, your registration
+  will occur on the test server.
+
+  .. image:: electronic_invoicing/peppol-system-parameter.png
+     :alt: peppol test mode
+
+Now you can request a verification code to be sent to you
+by clicking :guilabel:`Verify phone number`.
+
+.. image:: electronic_invoicing/peppol-registration-verify.png
+   :alt: phone validation request verification
+
+A text message containing a code is sent to the phone number provided to finalize
+the registration process.
 
 .. image:: electronic_invoicing/phone-registration.png
    :alt: phone validation
 
-All invoices and vendor bills are now sent directly using the Peppol network.
+Once you enter the code and click :guilabel:`Confirm`, you will see that your
+registration is pending activation.
+
+.. image:: electronic_invoicing/peppol-registration-pending.png
+   :alt: pending application
+
+It should be automatically activated within a day.
+In the meantime, you can set up the default journal here to receive incoming
+vendor bills.
+
+.. tip::
+  It is also possible to manually trigger the cron that checks the registration status,
+  by going to :menuselection:`Settings --> Technical --> Scheduled Actions --> PEPPOL\: update participant status`
+
+Your application status is going to be updated soon after you are
+registered on the Peppol network.
+
+.. image:: electronic_invoicing/peppol-registration-active.png
+   :alt: active application
+
+All invoices and vendor bills can now be sent directly using the Peppol network.
+
+Partner verification
+--------------------
+
+Before sending an invoice to a partner using the Peppol network, you need to verify
+that they are indeed registered as a Peppol participant as well.
+
+Go to :menuselection:`Accounting --> Customers --> Customers` and open the customer's form.
+Then go to :menuselection:`Accounting tab --> Electronic Invoicing`, select the correct format,
+and make sure their `Peppol EAS` code and the `Endpoint` are filled in.
+Then, click :guilabel:`Verify`. If the partner exists on the network, their `Peppol endpoint validity`
+will be set as Valid.
+
+.. image:: electronic_invoicing/peppol-partner-verify.png
+   :alt: verify partner registration
+
+.. important::
+   While Odoo prefills both the EAS code and the Endpoint number based on the information
+   available for a partner, it is better to confirm directly with the partner,
+   as these are essentially their contact details on the Peppol network.
+
+Send invoices
+-------------
+
+When you are ready to send an invoice via Peppol network, simply click :guilabel:`Send & Print`
+on the invoice form or select multiple invoices in the list view and go to
+:menuselection:`Actions --> Send & Print`.
+
+Make sure that both `BIS Billing 3.0` and `Send via PEPPOL` checkboxes are ticked.
+
+.. image:: electronic_invoicing/peppol-send-print.png
+   :alt: send peppol invoice
+
+The invoices will be queued to be sent in a batch if you send several of them at once.
+Once they are sent via Peppol, the status will be changed to `Processing`.
+The status is changed to `Done` after they have been successfully delivered to the
+partner's Access Point.
+
+.. image:: electronic_invoicing/peppol-message-processing.png
+   :alt: peppol message status
+
+.. tip::
+  By default, the Peppol status column is hidden on the Invoices list view.
+  But you can choose to have it always displayed.
+
+Receive vendor bills
+--------------------
+
+Once a day, a cron checks whether there are any new documents sent to you via the
+Peppol network. These documents will be imported and the corresponding vendor bills
+will be created automatically in draft.
+
+.. image:: electronic_invoicing/peppol-receive-bills.png
+   :alt: peppol receive bills
+
+FAQ
+---
+
+#. Is Odoo an Access Point?
+
+   - Odoo is an Access Point and an SMP.
+
+#. Do I need to pay to register as a Peppol participant in Odoo?
+
+   - No, Peppol registration is free and available in Community.
+
+#. What documents can I send via Peppol?
+
+   - At the moment, you can receive Customer Invoices and Credit notes
+     and receive Vendor Bills and Refunds.
+
+#. What document formats are supported?
+
+   - Currently, you can send in one of the following formats: `BIS Billing 3.0, XRechnung CIUS, NLCIUS`
+
+#. What countries are eligible for Peppol registration in Odoo right now?
+
+   - Andorra
+   - Albania
+   - Austria
+   - Bosnia and Herzegovina
+   - Belgium
+   - Bulgaria
+   - Switzerland
+   - Cyprus
+   - Czech Republic
+   - Germany
+   - Denmark
+   - Estonia
+   - Spain
+   - Finland
+   - France
+   - United Kingdom
+   - Greece
+   - Croatia
+   - Hungary
+   - Ireland
+   - Iceland
+   - Italy
+   - Liechtenstein
+   - Lithuania
+   - Luxembourg
+   - Latvia
+   - Monaco
+   - Montenegro
+   - North Macedonia
+   - Malta
+   - Netherlands
+   - Norway
+   - Poland
+   - Portugal
+   - Romania
+   - Serbia
+   - Sweden
+   - Slovenia
+   - Slovakia
+   - San Marino
+   - Turkey
+   - Holy See (Vatican City State)
