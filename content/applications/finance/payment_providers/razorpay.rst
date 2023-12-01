@@ -22,6 +22,8 @@ Configuration on Razorpay Dashboard
    :guilabel:`payment.failed`, :guilabel:`refund.failed` and :guilabel:`refund.processed`
    checkboxes are ticked.
 #. Click on :guilabel:`Create Webhook` to finalize the configuration.
+#. The :guilabel:`Recurring payments` feature must be activated if you want to make recurring payments.
+   To get this feature, you need to send a request to Razorpay `Support team <https://razorpay.com/support/#request>`_.
 
 .. _payment_providers/razorpay/configure_odoo:
 
