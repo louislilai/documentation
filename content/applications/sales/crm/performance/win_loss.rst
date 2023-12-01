@@ -17,7 +17,7 @@ Open the *Search Panel* dropdown, and make the following selections:
 #. Filters: *Won*.
 #. Filters: *Lost*.
 
-   - Optional: Removing or adjusting the *Created On* filter to reflect the last 30 days, the last
+   - Optional: Remove or adjust the *Created On* filter to reflect the last 30 days, the last
      quarter. By default, it reflects the entire year.
 
    - Optional: Show only leads that have reached the last stage of the sales pipeline (Closed) by
