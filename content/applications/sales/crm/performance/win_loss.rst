@@ -1,5 +1,5 @@
 ========================
-Create a Win/Loss Report
+Create a win/loss report
 ========================
 
 A Win/Loss ratio is the number of leads or opportunities a salesperson, sales team, or company have
